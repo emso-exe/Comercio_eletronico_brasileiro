@@ -14,4 +14,4 @@ product_category_name_translation.csv    |   https://www.kaggle.com/datasets/oli
 
 ## Licença
 
-Os arquivos são disponibilizados pelo site [Olist](https://olist.com/pt-br/) via plataforma [Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) sob a licença[Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+Os arquivos são disponibilizados pelo site [Olist](https://olist.com/pt-br/) via plataforma [Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) sob a licença [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/).
