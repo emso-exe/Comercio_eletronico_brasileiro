@@ -2,9 +2,16 @@
 
 Arquivo | Link
 --------|-------
-Investidores.pdf    |   https://www.tesourotransparente.gov.br/ckan/dataset/investidores-do-tesouro-direto/resource/9243a43c-31cd-4984-8129-55768fb780f5
-InvestidoresTesouroDireto.csv    |   https://www.tesourotransparente.gov.br/ckan/dataset/investidores-do-tesouro-direto/resource/0fd2ac86-4673-46c0-a889-b46224ade563
+olist_customers_dataset.csv    |   https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce?select=olist_customers_dataset.csv
+olist_geolocation_dataset.csv    |   https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce?select=olist_geolocation_dataset.csv
+olist_order_items_dataset.csv    |   https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce?select=olist_order_items_dataset.csv
+olist_order_payments_dataset.csv    |   https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce?select=olist_order_payments_dataset.csv
+olist_order_reviews_dataset.csv    |   https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce?select=olist_order_reviews_dataset.csv
+olist_orders_dataset.csv    |   https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce?select=olist_orders_dataset.csv 
+olist_products_dataset.csv    |   https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce?select=olist_products_dataset.csv
+olist_sellers_dataset.csv    |   https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce?select=olist_sellers_dataset.csv
+product_category_name_translation.csv    |   https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce?select=product_category_name_translation.csv
 
 ## Licença
 
-Os arquivos são disponibilizados pelo portal de [Dados Abertos](https://www.tesourotransparente.gov.br/ckan/dataset) do [Tesouro Nacional Transparente](https://www.tesourotransparente.gov.br/) sob a [Licença Aberta para Bases de Dados (ODbL) do Open Data Commons](https://opendefinition.org/licenses/odc-odbl/).
+Os arquivos são disponibilizados pelo site [Olist](https://olist.com/pt-br/) via plataforma [Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) sob a licença[Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/).
