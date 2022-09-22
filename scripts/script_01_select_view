@@ -1,0 +1,128 @@
+-- Criação das querys para visualização dos dados das tabelas criadas no batabase Olist
+
+SELECT customer_id, customer_unique_id, customer_zip_code_prefix, customer_city, customer_state
+	FROM ecommerce.tb_customers;
+
+SELECT geolocation_zip_code_prefix, geolocation_lat, geolocation_lng, geolocation_city, geolocation_state
+	FROM ecommerce.tb_geolocation;
+       
+SELECT order_id, order_item_id, product_id, seller_id, shipping_limit_date, price, freight_value
+	FROM ecommerce.tb_order_items;    
+    
+SELECT order_id, payment_sequential, payment_type, payment_installments, payment_value
+	FROM ecommerce.tb_order_payments;    
+    
+SELECT review_id, order_id, review_score, review_comment_title, review_comment_message, review_creation_date, review_answer_timestamp
+	FROM ecommerce.tb_order_reviews;
+    
+SELECT order_id, customer_id, order_status, order_purchase_timestamp, order_approved_at, order_delivered_carrier_date, order_delivered_customer_date, order_estimated_delivery_date
+	FROM ecommerce.tb_orders;
+
+SELECT product_id, product_category_name, product_name_lenght, product_description_lenght, product_photos_qty, product_weight_g, product_length_cm, product_height_cm, product_width_cm
+	FROM ecommerce.tb_products;
+    
+SELECT seller_id, seller_zip_code_prefix, seller_city, seller_state
+	FROM ecommerce.tb_sellers;
+    
+    
+-- VIEW vw_order_costumer
+
+-- DROP VIEW IF EXISTS ecommerce.vw_order_costumer;
+CREATE OR REPLACE VIEW ecommerce.vw_order_costumer AS 
+    SELECT 
+        oo.customer_id,
+        oo.order_id,
+        cc.customer_unique_id,
+        cc.customer_city,
+        cc.customer_state        
+    FROM ecommerce.tb_orders oo
+    INNER JOIN ecommerce.tb_customers cc ON cc.customer_id = oo.customer_id
+    
+    
+-- VIEW vw_price_freight
+
+-- DROP VIEW IF EXISTS ecommerce.vw_price_freight;
+CREATE OR REPLACE VIEW ecommerce.vw_price_freight AS 
+    SELECT
+        cc.customer_city,
+        cc.customer_state,
+        oo.order_purchase_timestamp,
+        oi.price,
+        oi.freight_value
+    FROM ecommerce.tb_orders oo
+    INNER JOIN ecommerce.tb_customers cc ON cc.customer_id = oo.customer_id
+    INNER JOIN ecommerce.tb_order_items oi ON oi.order_id = oo.order_id 
+    
+    
+-- 01 - Qual o total (quantidade) de vendas divididas por estado?
+
+SELECT 
+    customer_state, 
+    COUNT(*) amount_of_sales
+FROM ecommerce.vw_order_costumer 
+GROUP BY customer_state 
+ORDER BY amount_of_sales DESC;
+
+
+-- 02 - Qual o total (valor) de vendas e fretes divididos por estado?
+
+SELECT
+    customer_state,
+    to_char(SUM (price), 'L9G999G999D99') total_price,
+    to_char(SUM (freight_value), 'L9G999G999D99') total_freight
+FROM ecommerce.vw_price_freight
+GROUP BY customer_state
+ORDER BY total_price DESC;
+
+
+-- 03 - Qual o total (quantidade) de vendas por hora?
+
+SELECT
+    to_char(order_purchase_timestamp, 'HH24') as hour_24,
+    COUNT(*) AS amount_per_hour
+FROM ecommerce.vw_price_freight
+GROUP BY hour_24
+ORDER BY hour_24;
+
+
+-- 04 - Qual o total (valor) de vendas e fretes por hora?
+
+SELECT
+    to_char(order_purchase_timestamp, 'HH24') as hour_24,
+    to_char(SUM (price), 'L9G999G999D99') total_price,
+    to_char(SUM (freight_value), 'L9G999G999D99') total_freight
+FROM ecommerce.vw_price_freight
+GROUP BY hour_24
+ORDER BY hour_24;
+
+
+-- 05 - Quais as 10 cidades com as maiores quantidades de vendas?
+
+SELECT 
+    customer_city, 
+    customer_state, 
+    COUNT(*) top_10
+FROM ecommerce.vw_order_costumer 
+GROUP BY customer_city, customer_state 
+ORDER BY top_10 DESC
+LIMIT 10;
+
+
+-- 06 - Quais as 10 cidades com os maiores volumes (valores) de vendas e fretes?
+
+SELECT 
+    customer_city, 
+    customer_state, 
+    to_char(SUM (price), 'L9G999G999D99') total_price,
+    to_char(SUM (freight_value), 'L9G999G999D99') total_freight
+FROM ecommerce.vw_price_freight 
+GROUP BY customer_city, customer_state 
+ORDER BY total_price DESC
+LIMIT 10;
+
+
+--TO_CHAR(current_timestamp, 'HH24:MI:SS')
+--EXTRACT(HOUR FROM oo.order_purchase_timestamp) as hour_24,
+
+    
+
