@@ -5,19 +5,27 @@ Este é um projeto de análise do conjunto de dados públicos de comércio eletr
 ## 📃 Demanda da análise
 
 - Replicar os datasets para um banco de dados SQL
-- 
+- Executar um exploração dos dados via SQL
 - 
 
 ## ❓ Indagações a serem respondidas pela análise exploratória dos dados
 
-- Executar um exploração dos dados via SQL
-- 
-- 
+
+01. Qual o total(quantidade) de vendas divididas por estado?
+02. Qual o total(valor) de vendas e fretes divididos por estado?
+03. Qual o total(quantidade) e distribuição(%) de vendas por hora?
+04. Qual a média(valor) de vendas por hora?
+05. Qual o ticket médio nos anos de 2016, 2017 e 2018?
+06. Qual a distribuição(%) da pontuação do pedidos?
+07. Quais as 10 cidades com as maiores volumes(quantidade) de vendas?
+08. Quais as 10 cidades com os maiores volumes(valores) de vendas e fretes?
+09. Qual a quantidade de produtos cadastrados por categoria?
+10. Qual a quantidade e distribuição(%) das categorias nos pedidos?
+11. Qual a quantidade de vendas por vendedor?
 
 ## 💻 Tecnologias
 
 - PostgreSQL
-- 
 - 
       
 ## 💳 Créditos
