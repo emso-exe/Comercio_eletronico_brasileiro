@@ -5,11 +5,10 @@ Este é um projeto de análise do conjunto de dados públicos de comércio eletr
 ## 📃 Demanda da análise
 
 - Replicar os datasets para um banco de dados SQL
-- Executar um exploração dos dados via SQL
-- 
+- Executar a exploração dos dados via SQL
+- Executar a exploração das tabelas via PySpark
 
 ## ❓ Indagações a serem respondidas pela análise exploratória dos dados
-
 
 01. Qual o total(quantidade) de vendas divididas por estado?
 02. Qual o total(valor) de vendas e fretes divididos por estado?
@@ -26,7 +25,7 @@ Este é um projeto de análise do conjunto de dados públicos de comércio eletr
 ## 💻 Tecnologias
 
 - PostgreSQL
-- 
+- PySpark
       
 ## 💳 Créditos
 
