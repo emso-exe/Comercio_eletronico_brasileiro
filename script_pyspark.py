@@ -12,7 +12,7 @@ de negócio.
 # Importação de bibliotecas
 
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, count, desc, sum, hour
+from pyspark.sql.functions import col, count, desc
 
 print('\nCriação e iniciação de uma sessão Spark\n')
 
@@ -102,6 +102,7 @@ em df_products há produtos com nome e descrição ausentes, porém constam em p
 
 
 print('Verificando a existência de registros duplicados\n')
+
 
 def check_duplicates(dataframe, fields) -> None:
     '''
@@ -215,7 +216,21 @@ spark.sql('''
 
 print('\n01 - Qual o total(quantidade) de vendas divididas por estado?\n')
 
-spark.sql('''
+
+def save_in_csv(query, name) -> None:
+    '''
+    Salva o resultado de uma consulta SQL em arquivo .csv.
+
+    :param query: Query
+        Query SQL a ser convertida em dataframe.
+    :param name: str
+        Nome que será atribuido ao arquivo .csv.
+    '''
+    df_pandas = query.toPandas()
+    df_pandas.to_csv(f'resultados/{name}.csv', index=False)
+
+
+query_01 = spark.sql('''                   
     SELECT 
         customer_state, 
         COUNT(order_id) amount_of_sales
@@ -224,11 +239,15 @@ spark.sql('''
             customer_state 
         ORDER BY 
             amount_of_sales DESC;
-''').show(31, truncate=False)
+''')
+
+query_01.show(query_01.count() + 4, truncate=False)
+
+save_in_csv(query_01, 'df_01')
 
 print('02 - Qual o total(valor) de vendas e fretes divididos por estado?\n')
 
-spark.sql('''
+query_02 = spark.sql('''
     SELECT
         customer_state,
         CAST(SUM (price) AS DECIMAL(10,2)) AS total_price,
@@ -238,11 +257,15 @@ spark.sql('''
             customer_state
         ORDER BY 
             total_price DESC;
-''').show(31, truncate=False)
+''')
+
+query_02.show(query_02.count() + 4, truncate=False)
+
+save_in_csv(query_02, 'df_02')
 
 print('03 - Qual o total(quantidade) e distribuição(%) de vendas por hora?\n')
 
-spark.sql('''
+query_03 = spark.sql('''
     SELECT
         date_format(order_purchase_timestamp, 'HH') AS hour_24,
         COUNT(order_id) AS amount_per_hour,
@@ -252,11 +275,15 @@ spark.sql('''
             hour_24
         ORDER BY 
             hour_24;
-''').show(28, truncate=False)
+''')
+
+query_03.show(query_03.count() + 4, truncate=False)
+
+save_in_csv(query_03, 'df_03')
 
 print('04 - Qual a média(valor) de vendas por hora?\n')
 
-spark.sql('''
+query_04 = spark.sql('''
     SELECT 
         hour_24,
         CAST(AVG (sum_total) AS DECIMAL(10,2)) AS avg_total
@@ -279,11 +306,15 @@ spark.sql('''
             hour_24
         ORDER BY 
             hour_24;
-''').show(28, truncate=False)
+''')
+
+query_04.show(query_04.count() + 4, truncate=False)
+
+save_in_csv(query_04, 'df_04')
 
 print('05 - Qual o ticket médio nos anos de 2016, 2017 e 2018?\n')
 
-spark.sql('''
+query_05 = spark.sql('''
     SELECT 
         ext_year,
         CAST(AVG (sum_total) AS DECIMAL(10,2)) AS avg_ticket
@@ -305,11 +336,15 @@ spark.sql('''
             ext_year
         ORDER BY 
             ext_year;
-''').show(truncate=False)
+''')
 
-print('06 - Qual a distribuição(%) da pontuação do pedidos?\n')
+query_05.show(truncate=False)
 
-spark.sql('''
+save_in_csv(query_05, 'df_05')
+
+print('06 - Qual a distribuição(%) da pontuação dos pedidos?\n')
+
+query_06 = spark.sql('''
     SELECT 
         review_score,
         COUNT(*) AS qty_score,
@@ -319,11 +354,15 @@ spark.sql('''
             review_score
         ORDER BY
             review_score DESC;
-''').show(truncate=False)
+''')
+
+query_06.show(truncate=False)
+
+save_in_csv(query_06, 'df_06')
 
 print('07 - Quais as 10 cidades com as maiores volumes(quantidade) de vendas?\n')
 
-spark.sql('''
+query_07 = spark.sql('''
     SELECT 
         customer_city, 
         customer_state, 
@@ -335,11 +374,15 @@ spark.sql('''
         ORDER BY 
             top_10 DESC
         LIMIT 10;
-''').show(truncate=False)
+''')
+
+query_07.show(truncate=False)
+
+save_in_csv(query_07, 'df_07')
 
 print('08 - Quais as 10 cidades com os maiores volumes(valores) de vendas e fretes?\n')
 
-spark.sql('''
+query_08 = spark.sql('''
     SELECT 
         customer_city, 
         customer_state, 
@@ -352,11 +395,15 @@ spark.sql('''
         ORDER BY 
             total_price DESC
         LIMIT 10;
-''').show(truncate=False)
+''')
+
+query_08.show(truncate=False)
+
+save_in_csv(query_08, 'df_08')
 
 print('09 - Qual a quantidade de produtos cadastrados por categoria?\n')
 
-spark.sql('''
+query_09 = spark.sql('''
     SELECT 
         product_category_name,
         COUNT(product_id) AS qty_product
@@ -365,15 +412,19 @@ spark.sql('''
             product_category_name
         ORDER BY
             qty_product DESC;
-''').show(78, truncate=False)
+''')
+
+query_09.show(query_09.count() + 4, truncate=False)
+
+save_in_csv(query_09, 'df_09')
 
 print('10 - Qual a quantidade e distribuição(%) das categorias nos pedidos?\n')
 
-spark.sql('''
+query_10 = spark.sql('''
     SELECT
         product_category_name,
         COUNT(oi.product_id) AS qty_product,
-        CAST(COUNT(oi.product_id) * 100 / SUM(COUNT(oi.product_id)) OVER() AS DECIMAL(10,2)) AS perc_category
+        CAST(COUNT(oi.product_id) * 100 / SUM(COUNT(oi.product_id)) OVER() AS DECIMAL(10,3)) AS perc_category
     FROM tb_products po
         INNER JOIN tb_order_items oi 
         ON po.product_id = oi.product_id
@@ -381,11 +432,16 @@ spark.sql('''
             product_category_name
         ORDER BY
             perc_category DESC;
-''').show(78, truncate=False)
+''')
+
+query_10.show(query_10.count() + 4, truncate=False)
+
+save_in_csv(query_10, 'df_10')
+
 
 print('11 - Qual a quantidade de vendas por vendedor?\n')
 
-spark.sql('''
+query_11 = spark.sql('''
     SELECT
         se.seller_id,
         COUNT(DISTINCT oi.order_id) AS qty_order_by_seller
@@ -396,6 +452,10 @@ spark.sql('''
             se.seller_id
         ORDER BY
             qty_order_by_seller DESC;
-''').show(truncate=False)
+''')
+
+query_11.show(truncate=False)
+
+save_in_csv(query_11, 'df_11')
 
 spark.stop()
