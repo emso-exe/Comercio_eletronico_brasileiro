@@ -6,7 +6,8 @@ Este é um projeto de análise do conjunto de dados públicos de comércio eletr
 
 - Replicar os datasets para um banco de dados SQL
 - Executar a exploração dos dados via SQL
-- Executar a exploração das tabelas via PySpark
+- Aplicar ETL nas tabelas via PySpark
+- Exportar dados para construção de uma apresentação
 
 ## ❓ Indagações a serem respondidas pela análise exploratória dos dados
 
